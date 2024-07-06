@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
-// import ErrorHandler from '../utils/ErrorHandler';
+import ErrorHandler from '../utils/ErrorHandler';
 //fix importing errorHandler (all good but idk why it wouldn't be imported)
 
-module.exports = (err: any, req: Request, res: Response, next: NextFunction) => {
+export const ErrorMiddleware = (err: any, req: Request, res: Response, next: NextFunction) => {
     err.statusCode = err.statusCode || 500;
     err.message = err.message || 'Internal server error';
 
