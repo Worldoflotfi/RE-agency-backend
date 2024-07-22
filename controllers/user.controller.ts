@@ -77,5 +77,5 @@ export const createActivationToken = (user: IUser): IActivationToken => {
     return { token, activationCode };
 }
 
-//recap: user and error problems -- next task user route 
+//recap: user and error problems - next task user route 
 
