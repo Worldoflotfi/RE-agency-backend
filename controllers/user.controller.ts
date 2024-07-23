@@ -46,7 +46,7 @@ export const registrationUser = CatchAsyncError(async (req: Request, res: Respon
 
             res.status(201).json({
                 success: true,
-                message: `Please check your email: ${user.email} to activate your account.`,
+                message: `Please zcheck your email: ${user.email} to activate your account.`,
                 activationToken: activationToken.token,
             });
         } catch (error) {
@@ -63,7 +63,7 @@ interface IActivationToken {
     activationCode: string;
 }
 
-export const createActivationToken = (user: IUser): IActivationToken => {
+export const createActivationToken = (user: IRegistrationBody): IActivationToken => {
     const activationCode = Math.floor(1000 + Math.random() * 9000).toString();
 
     const token = jwt.sign({
