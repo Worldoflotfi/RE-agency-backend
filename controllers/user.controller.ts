@@ -46,7 +46,7 @@ export const registrationUser = CatchAsyncError(async (req: Request, res: Respon
 
             res.status(201).json({
                 success: true,
-                message: `Please zcheck your email: ${user.email} to activate your account.`,
+                message: `Please check your email: ${user.email} to activate your account.`,
                 activationToken: activationToken.token,
             });
         } catch (error) {
