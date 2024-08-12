@@ -30,6 +30,7 @@ export const registrationUser = CatchAsyncError(async (req: Request, res: Respon
             email,
             password,
         };
+        
         const activationToken = createActivationToken(user);
         const activationCode = activationToken.activationCode;
 
@@ -39,7 +40,7 @@ export const registrationUser = CatchAsyncError(async (req: Request, res: Respon
         try {
             await sendMail({
                 email: user.email,
-                subject: 'ctivate your account',
+                subject: 'Activate your account',
                 template: 'activation-mail.ejs',
                 data,
             });
@@ -49,11 +50,11 @@ export const registrationUser = CatchAsyncError(async (req: Request, res: Respon
                 message: `Please check your email: ${user.email} to activate your account.`,
                 activationToken: activationToken.token,
             });
-        } catch (error) {
+        } catch(error:any) {
             return next(new ErrorHandler(error.message, 400))
         }
     }
-    catch {
+    catch(error:any) {
         return next(new ErrorHandler(error.message, 400));
     }
 });
