@@ -6,6 +6,7 @@ import jwt, { Secret } from 'jsonwebtoken';
 import ejs from 'ejs';
 import path from 'path';
 import sendMail from '../utils/sendMail';
+import { BADHINTS } from 'dns';
 
 
 //REGISTER USER
@@ -78,5 +79,5 @@ export const createActivationToken = (user: IRegistrationBody): IActivationToken
     return { token, activationCode };
 }
 
-//recap => user and error problems - next task user route 
 
+//print from pic .. paste 
