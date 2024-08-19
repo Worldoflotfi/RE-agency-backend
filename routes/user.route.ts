@@ -7,3 +7,6 @@ const userRouter = express.Router();
 userRouter.post('/registration ', registrationUser);
 
 export default userRouter;
+
+
+//test registration route in postman
