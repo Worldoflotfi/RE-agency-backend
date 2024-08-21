@@ -123,4 +123,4 @@ export const activateUser = CatchAsyncError(async(req:Request,res:Response,next:
 
 
 
-//print from pic .. paste 
+//print from pic ..
