@@ -122,5 +122,5 @@ export const activateUser = CatchAsyncError(async(req:Request,res:Response,next:
 });
 
 
-
+//check wrong OTP 
 //print from pic ..
