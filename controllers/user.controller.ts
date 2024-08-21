@@ -31,7 +31,7 @@ export const registrationUser = CatchAsyncError(async (req: Request, res: Respon
             email,
             password,
         };
-        
+
         const activationToken = createActivationToken(user);
         const activationCode = activationToken.activationCode;
 
@@ -50,11 +50,11 @@ export const registrationUser = CatchAsyncError(async (req: Request, res: Respon
                 message: `Please check your email: ${user.email} to activate your account.`,
                 activationToken: activationToken.token,
             });
-        } catch(error:any) {
+        } catch (error: any) {
             return next(new ErrorHandler(error.message, 400))
         }
     }
-    catch(error:any) {
+    catch (error: any) {
         return next(new ErrorHandler(error.message, 400));
     }
 });
@@ -80,30 +80,30 @@ export const createActivationToken = (user: IRegistrationBody): IActivationToken
 
 //activate user
 
-interface IActivationRequest{
+interface IActivationRequest {
     activation_token: string;
     activation_code: string;
 }
 
-export const activateUser = CatchAsyncError(async(req:Request,res:Response,next:NextFunction) => {
-    try{
-        const {activation_token, activation_code} = req.body as IActivationRequest;
+export const activateUser = CatchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { activation_token, activation_code } = req.body as IActivationRequest;
 
-        const newUser: {user: IUser; activationCode:string} = jwt.verify(
+        const newUser: { user: IUser; activationCode: string } = jwt.verify(
             activation_token,
             process.env.ACTIVATION_SECRET as string
-        ) as {user: IUser; activationCode:string};
+        ) as { user: IUser; activationCode: string };
 
-        if(newUser.activationCode !== activation_code){
-            return next(new ErrorHandler("Invalid Activation Code",400));
+        if (newUser.activationCode !== activation_code) {
+            return next(new ErrorHandler("Invalid Activation Code", 400));
         }
 
         const { name, email, password } = newUser.user;
 
         const existUser = await userModel.findOne({ email });
 
-        if(existUser){
-            return next(new ErrorHandler("Email already exist",400));
+        if (existUser) {
+            return next(new ErrorHandler("Email already exist", 400));
         }
 
         const user = await userModel.create({
@@ -116,11 +116,11 @@ export const activateUser = CatchAsyncError(async(req:Request,res:Response,next:
             success: true,
         });
     }
-    catch(error:any){
+    catch (error: any) {
         return next(new ErrorHandler(error.message, 400));
     }
 });
 
 
-//check wrong OTP 
+//check wrong OTP
 //print from pic ..
