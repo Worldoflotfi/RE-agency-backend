@@ -127,26 +127,26 @@ interface ILoginRequest {
     password: string;
 }
 
-export const loginUser = CatchAsyncError(async(req:Request,res:Response,next:NextFunction) => {
-    try{
-        const {email,password} = req.body as ILoginRequest;
+export const loginUser = CatchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { email, password } = req.body as ILoginRequest;
 
-        if(!email || !password){
-            return next(new ErrorHandler('Please enter email and password',400));
+        if (!email || !password) {
+            return next(new ErrorHandler('Please enter email and password', 400));
         };
 
-        const user = await userModel.findOne({email}).select('+password');
+        const user = await userModel.findOne({ email }).select('+password');
 
-        if(!user){
-            return next(new ErrorHandler("Invalid email or password",400));
+        if (!user) {
+            return next(new ErrorHandler("Invalid email or password", 400));
         };
 
         const isPasswordMatch = await user.comparePassword(password);
-        if(!user){
-            return next(new ErrorHandler('Invalid email or password',400));
+        if (!user) {
+            return next(new ErrorHandler('Invalid email or password', 400));
         };
     }
-    catch (error:any){
+    catch (error: any) {
         return next(new ErrorHandler(error.message, 400));
     }
 })
