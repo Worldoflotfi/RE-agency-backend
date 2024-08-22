@@ -34,6 +34,7 @@ export const sendToken = (user: IUser, statusCode: number, res: Response) => {
         maxAge: refreshTokenExpire * 1000,
         httpOnly: true,
         sameSite: 'lax'
+        
     };
 
     //only set secure to true in production
