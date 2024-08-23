@@ -17,6 +17,7 @@ app.use(cors({
     origin: process.env.ORIGIN
 }));
 
+//user router
 app.use('/api/v1', userRouter);
 
 //testing apis
