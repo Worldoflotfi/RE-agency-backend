@@ -19,7 +19,7 @@ app.use(cors({
 
 app.use('/api/v1', userRouter);
 
-//testing api
+//testing apis
 app.get('/test', (req: Request, res: Response, next: NextFunction) => {
     res.status(200).json({
         success: true,
