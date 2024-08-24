@@ -7,6 +7,7 @@ import ejs from 'ejs';
 import path from 'path';
 import sendMail from '../utils/sendMail';
 import { BADHINTS } from 'dns';
+import { sendToken } from '../utils/jwt';
 
 
 //REGISTER USER
@@ -147,6 +148,8 @@ export const loginUser = CatchAsyncError(async (req: Request, res: Response, nex
         if (!user) {
             return next(new ErrorHandler('Invalid email or password', 400));
         };
+
+        sendToken(user,200,res);
     }
     catch (error: any) {
         return next(new ErrorHandler(error.message, 400));
