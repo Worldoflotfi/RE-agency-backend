@@ -1,12 +1,18 @@
-import { Redis } from "ioredis";
+import { Redis } from 'ioredis';
 require('dotenv').config();
 
 const redisClient = () => {
-    if(process.env.REDIS_URL){
-        console.log('Redis connected');
-        return process.env.REDIS_URL;
+    const redisUrl = process.env.REDIS_URL;
+    if (!redisUrl) {
+        throw new Error('Redis connection URL is missing in environment variables');
     }
-    throw new Error('Redis connection failed');
+
+    console.log('Connecting to Redis...');
+    return new Redis(redisUrl);
 };
 
-export const redis = new Redis(redisClient());
+export const redis = redisClient();
+
+redis.on('error', (err) => {
+    console.error('Redis error:', err);
+});

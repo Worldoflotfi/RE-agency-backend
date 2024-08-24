@@ -17,7 +17,7 @@ export const sendToken = (user: IUser, statusCode: number, res: Response) => {
     const refreshToken = user.SignRefreshToken();
 
     // Ensure user._id is a string
-    const userId = user._id as string;
+    const userId = user._id.toString(); // Convert to string
 
     //upload session to redis
     redis.set(userId, JSON.stringify(user) as any);
@@ -39,7 +39,6 @@ export const sendToken = (user: IUser, statusCode: number, res: Response) => {
         maxAge: refreshTokenExpire * 1000,
         httpOnly: true,
         sameSite: 'lax'
-        
     };
 
     //only set secure to true in production
