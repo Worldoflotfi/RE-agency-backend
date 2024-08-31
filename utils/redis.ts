@@ -9,7 +9,7 @@ const redisClient = () => {
         throw new Error('Redis connection URL is missing in environment variables');
     }
 
-    console.log('Connecting to Redis...');
+    console.log('Connected to Redis...');
     return new Redis(redisUrl);
 };
 

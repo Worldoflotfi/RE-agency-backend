@@ -85,7 +85,6 @@ interface IActivationRequest {
     activation_token: string;
     activation_code: string;
 }
-
 export const activateUser = CatchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { activation_token, activation_code } = req.body as IActivationRequest;
