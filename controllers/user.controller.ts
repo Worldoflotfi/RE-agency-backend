@@ -148,7 +148,8 @@ export const loginUser = CatchAsyncError(async (req: Request, res: Response, nex
             return next(new ErrorHandler('Invalid email or password', 400));
         };
 
-        sendToken(user,200,res);
+        sendToken(user, 200, res);
+
     }
     catch (error: any) {
         return next(new ErrorHandler(error.message, 400));
@@ -157,16 +158,16 @@ export const loginUser = CatchAsyncError(async (req: Request, res: Response, nex
 
 //logoutuser
 export const logoutUser = CatchAsyncError(
-    async (req:Request, res: Response, next: NextFunction) => {
+    async (req: Request, res: Response, next: NextFunction) => {
         try {
-            res.cookie("access_token", "", { maxAge: 1});
-            res.cookie("refresh_token", "", { maxAge: 1});
+            res.cookie("access_token", "", { maxAge: 1 });
+            res.cookie("refresh_token", "", { maxAge: 1 });
             res.status(200).json({
                 success: true,
                 message: "Logged out successfully",
             });
         }
-        catch(error: any){
+        catch (error: any) {
             return next(new ErrorHandler(error.message, 400))
         }
     }
