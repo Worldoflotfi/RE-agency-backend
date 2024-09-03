@@ -16,11 +16,8 @@ export const sendToken = (user: IUser, statusCode: number, res: Response) => {
     const accessToken = user.SignAccessToken();
     const refreshToken = user.SignRefreshToken();
 
-    // Ensure user._id is a string
-    const userId = user._id.toString(); // Convert to string
-
     //upload session to redis
-    redis.set(userId, JSON.stringify(user) as any);
+    redis.set(user._id, JSON.stringify(user) as any);
 
     //parse environment vars to integrate with fallback values
     const accessTokenExpire = parseInt(process.env.ACCESS_TOKEN_EXPIRE || '300', 10);
