@@ -16,6 +16,6 @@ export const isAuthenticated = CatchAsyncError(async(req:Request,res:Response,ne
         return next(new ErrorHandler("access token is not valid",400));
     }
 
+    //continue for protected route
 
-    
 })

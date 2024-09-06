@@ -80,7 +80,8 @@ export const createActivationToken = (user: IRegistrationBody): IActivationToken
     return { token, activationCode };
 }
 
-//activate user
+
+//activate user (sending otp to mail)
 
 interface IActivationRequest {
     activation_token: string;
