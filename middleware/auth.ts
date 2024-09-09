@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { CatchAsyncError } from "./catchAsyncErrors";
 import ErrorHandler from "../utils/ErrorHandler";
 import jwt from "jsonwebtoken";
+import { redis } from "../utils/redis";
 
 export const isAuthenticated = CatchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
     const access_token = req.cookies.access_token;
@@ -17,5 +18,14 @@ export const isAuthenticated = CatchAsyncError(async (req: Request, res: Respons
     }
 
     //continue for protected route
+    const user = await redis.get(decoded.id);
+
+    if(!user) {
+        return next(new ErrorHandler("user not found", 400));
+    }
+
+    req.user = JSON.parse(user);
+
+    next();
 
 })
