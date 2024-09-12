@@ -163,6 +163,8 @@ export const logoutUser = CatchAsyncError(
         try {
             res.cookie("access_token", "", { maxAge: 1 });
             res.cookie("refresh_token", "", { maxAge: 1 });
+            const userId = req.user?.id;
+            redis.del(userId);
             res.status(200).json({
                 success: true,
                 message: "Logged out successfully",
