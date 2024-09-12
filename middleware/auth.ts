@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { CatchAsyncError } from "./catchAsyncErrors";
 import ErrorHandler from "../utils/ErrorHandler";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import { redis } from "../utils/redis";
 
 export const isAuthenticated = CatchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
@@ -11,7 +11,7 @@ export const isAuthenticated = CatchAsyncError(async (req: Request, res: Respons
         return next(new ErrorHandler("Please login to access this ressource", 400));
     }
 
-    const decoded = jwt.verify(access_token, process.env.ACCESS_TOKEN as string);
+    const decoded = jwt.verify(access_token, process.env.ACCESS_TOKEN as string) as JwtPayload;
 
     if (!decoded) {
         return next(new ErrorHandler("access token is not valid", 400));
