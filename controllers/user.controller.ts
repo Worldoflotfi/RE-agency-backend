@@ -9,6 +9,7 @@ import sendMail from '../utils/sendMail';
 import { BADHINTS } from 'dns';
 import { sendToken } from '../utils/jwt';
 import { EventEmitterAsyncResource } from 'events';
+import { redis } from "../utils/redis";
 
 
 //REGISTER USER
@@ -150,6 +151,7 @@ export const loginUser = CatchAsyncError(async (req: Request, res: Response, nex
         };
 
         sendToken(user, 200, res);
+        
 
     }
     catch (error: any) {
@@ -164,7 +166,9 @@ export const logoutUser = CatchAsyncError(
             res.cookie("access_token", "", { maxAge: 1 });
             res.cookie("refresh_token", "", { maxAge: 1 });
             const userId = req.user?.id;
+
             redis.del(userId);
+            
             res.status(200).json({
                 success: true,
                 message: "Logged out successfully",

@@ -11,7 +11,7 @@ const redisClient = () => {
 
     console.log('Connected to Redis...');
     return new Redis(redisUrl);
-};
+}; 
 
 export const redis = redisClient();
 

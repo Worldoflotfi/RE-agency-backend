@@ -25,11 +25,6 @@ export const sendToken = (user: IUser, statusCode: number, res: Response) => {
 
     //paste send token infos
 
-//     const sendToken = (user: IUser, statusCode: number, res:Response) => {
-//         const accessToken = user.SignAccessToken();
-//         const refreshToken = user.SignRefreshToken();
-//    }
-
     //option for cookies
     const accessTokenOptions: ITokenOptions = {
         expires: new Date(Date.now() + accessTokenExpire * 1000),
