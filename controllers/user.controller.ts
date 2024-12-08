@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import userModel, { IUser } from '../models/user.model';
 import ErrorHandler from '../utils/ErrorHandler';
 import { CatchAsyncError } from '../middleware/catchAsyncErrors';
-import jwt, { Secret } from 'jsonwebtoken';
+import jwt, { JwtPayload, Secret } from 'jsonwebtoken';
 import ejs from 'ejs';
 import path from 'path';
 import sendMail from '../utils/sendMail';
@@ -151,7 +151,7 @@ export const loginUser = CatchAsyncError(async (req: Request, res: Response, nex
         };
 
         sendToken(user, 200, res);
-        
+
 
     }
     catch (error: any) {
@@ -168,7 +168,7 @@ export const logoutUser = CatchAsyncError(
             const userId = req.user?.id;
 
             redis.del(userId);
-            
+
             res.status(200).json({
                 success: true,
                 message: "Logged out successfully",
@@ -179,6 +179,53 @@ export const logoutUser = CatchAsyncError(
         }
     }
 );
+
+//update access token 
+
+const updateAccessToken = CatchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const refresh_token = req.cookies.refresh_token as string;
+        const decoded = jwt.verify(refresh_token,
+            process.env.REFRESH_TOKEN_SECRET as string
+        ) as JwtPayload;
+
+        const message = 'could not refresh token';
+
+        if (!decoded) {
+            return next(new ErrorHandler(message, 400));
+        }
+
+        const session = await redis.get(decoded.id as string);
+
+        if (!session) {
+            return next(new ErrorHandler(message, 400));
+        }
+
+        const user = JSON.parse(session);
+
+        const accessToken = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN as string, {
+            expiresIn: "5m",
+        });
+
+        const refreshToken = jwt.sign({ id: user._id }, process.env.REFRESH_TOKEN as string, {
+            expiresIn: "3d",
+        });
+
+    }
+    catch (error: any) {
+        return next(new ErrorHandler(error.message, 400));
+    }
+
+
+})
+
+
+
+
+
+
+
+
 
 
 
